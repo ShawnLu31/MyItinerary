@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+    <head>
+        <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
+        <meta charset="utf-8" />
+        <title>MyItinerary</title>
+        <link href="style.css" rel="stylesheet" type="text/css">
+
+    </head>
+    <body>
+        <div id="Header">My Itinerary</div>
+        <div id="Body">
+            <!--search sidebar-->
+            <div id="Sidebar">
+                <div style="margin-top: 10px;">
+                    <button class="button-onekey">一鍵行程</button>
+                </div>
+                <div style="height: 50px; text-align: center; 
+                            padding: 15px 32px;                            
+                            text-align: center;
+                            text-decoration: none;
+                            font-size: 24px;">
+                            篩選條件
+                </div>
+                <div style="margin-top: 10px;" >
+                    <button class="button">行程風格</button>
+                    <button class="button">景點</button>
+                    <button class="button">享食</button>
+                    <button class="button">娛樂</button>
+                    <button class="button">距離</button>
+                    <button class="button">其他</button>
+                </div>
+            </div>
+            <!--itinerary detail sidebar-->
+            <div id="Sidebar">
+                <!-- title -->
+                <div style="height: 50px; text-align: center;
+                            padding: 15px 32px;                            
+                            text-align: center;
+                            text-decoration: none;
+                            font-size: 24px;">
+                            行程
+                </div>
+                <!--itinerary detail -->
+                <div  style="margin-top: 10px;"> 
+                    <div class="location-block">location example</div>
+                    <div class="transport-block">transport example</div>
+                    <div class="location-block">location example</div>
+                </div>
+
+            </div>
+            <!-- google map space-->
+            <div id="Map"></div>
+            <script>
+                function initMap() {
+                    var chengkungCS = {lat: 22.997409807642487, lng: 120.22060180281467};
+                    var map = new google.maps.Map(document.getElementById('Map'), {
+                    zoom: 15,
+                    center: chengkungCS 
+                    });
+                    var marker = new google.maps.Marker({
+                    position: chengkungCS,
+                    map: map
+                    });
+                }
+            </script>
+            <script async defer
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA&callback=initMap">
+            </script>
+        </div>
+    </body>
+</html>
