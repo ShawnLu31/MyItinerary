@@ -4,7 +4,7 @@
         <meta charset="utf-8" />
         <title>MyItinerary</title>
         <link href="style.css" rel="stylesheet" type="text/css">
-
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     </head>
     <body>
         <div id="Header">My Itinerary</div>
@@ -12,7 +12,7 @@
             <!--search sidebar-->
             <div id="Sidebar">
                 <div style="margin-top: 10px;">
-                    <button class="button-onekey">一鍵行程</button>
+                    <button class="button-onekey" onclick="One_key_example();">一鍵行程</button>
                 </div>
                 <div style="height: 50px; text-align: center; 
                             padding: 15px 32px;                            
@@ -32,8 +32,8 @@
                                     <li><input type="checkbox" name="1"><label for="1">一人</label></li>
                                     <li><input type="checkbox" name="2"><label for="2">雙人</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">三人</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">四人</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">五人以上</label></li>
+                                    <li><input type="checkbox" name="4"><label for="3">四人</label></li>
+                                    <li><input type="checkbox" name="5"><label for="3">五人以上</label></li>
                                 </ul>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
@@ -73,7 +73,6 @@
                                     <li><input type="checkbox" name="2"><label for="2">日式</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">意式</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">法式</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">美式</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">速食</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">異國</label></li>
                                     <li><input type="checkbox" name="3"><label for="3">素食</label></li>
@@ -167,7 +166,43 @@
                         }
                     
                     </script>
+                    <script>
+                        function One_key_example() {
+                            // 文字搜尋
+                            search_requests = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
+                            parameters = "location=22.997409807642487%2120.22060180281467&query=restaurants"
+                            MY_API_KEY = "&key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA"
+                            url = search_requests + parameters + MY_API_KEY
 
+                            // 地點 detail
+                            detail_requests = "https://maps.googleapis.com/maps/api/place/details/json?"
+                            parameters = "fields=name%2Crating%2Cformatted_phone_number&place_id=ChIJN1t_tDeuEmsRUsoyG83frY4"
+                            url = detail_requests + parameters + MY_API_KEY
+
+                            // var axios = require('axios');
+
+                            // var config = {
+                            //     method: 'get',
+                            //     url: search_requests,
+                            //     headers: { }
+                            // };
+
+                            // axios(config).then(function (response) {
+                            //     console.log(JSON.stringify(response.data));
+                            // })
+                            // .catch(function (error) {
+                            //     console.log(error);
+                            // });
+                            fetch(url)
+                            .then(res => res.json())
+                            .then((data) => {
+
+                                console.log(data);
+                            }).catch(err => console.error(err));
+
+                            
+                        }
+                    </script>
                 </div>
             </div>
             <!--itinerary choose sidebar-->
@@ -181,16 +216,21 @@
                 </div>
                 <!--itinerary choice-->
                 <div  style="margin-top: 10px;"> 
-                    <div class="location-block" style="line-height: 150px;" type="button" onclick="itinerary1()";>itinerary 1</div>
-                    <div class="location-block" style="line-height: 150px;">itinerary 2</div>
-                    <div class="location-block" style="line-height: 150px;">itinerary 3</div>
+                    <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()";>itinerary 1</div>
+                    <div class="itinerary-choice-block" style="line-height: 150px;">itinerary 2</div>
+                    <div class="itinerary-choice-block" style="line-height: 150px;">itinerary 3</div>
                 </div>
             </div>
             <script>
                 function itinerary1(){
                     let detail = document.querySelector('[data-target="detail"]')
-                    console.log(detail);
-                    detail.style.visibility="visible";
+                    
+                    if (detail.style.visibility=="visible") {
+                        detail.style.visibility="hidden";
+                    }
+                    else {
+                        detail.style.visibility="visible";
+                    }
                 }
             </script>
 
@@ -223,16 +263,17 @@
                 function initMap() {
                     var chengkungCS = {lat: 22.997409807642487, lng: 120.22060180281467};
                     var map = new google.maps.Map(document.getElementById('Map'), {
-                    zoom: 15,
-                    center: chengkungCS 
+                        zoom: 15,
+                        center: chengkungCS 
                     });
                     var marker = new google.maps.Marker({
-                    position: chengkungCS,
-                    map: map
+                        position: chengkungCS,
+                        map: map
                     });
                 }
             </script>
             <script async defer
+                MY_API_KEY = "AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA"
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA&callback=initMap">
             </script>
         </div>
