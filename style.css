@@ -7,7 +7,7 @@
     color:#000000;
     font-weight:bold;
     background-color:#d2d2d2;
-    border: 1px solid black;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     border-radius:10px;
 }
 
@@ -21,7 +21,7 @@
 
 #Sidebar{
     flex:none;
-    width:24%;
+    width:16%;
     height: 100%;
 
     text-align:center;
@@ -30,7 +30,7 @@
     color:#000000;
     
     background-color:#ffffff;
-    border: 1px solid black;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     border-radius:10px;
 }
 
@@ -55,15 +55,18 @@
     color: black;
     border: 2px solid #555555;
     cursor: pointer;
+    border-radius:10px;
 }
+
 .button-onekey:hover {
     background-color: #555555;
     color: white;
     cursor: pointer;
 }
+
 .button {
-    background-color: #7a7a7a; /* Green */
-    border: 1px solid rgb(81, 81, 81);
+    background-color: #7a7a7a;
+    border: 1px solid #7a7a7a;
     color: white;
     padding: 15px 32px;
     text-align: center;
@@ -72,6 +75,64 @@
     cursor: pointer;
     width: 150px;
     margin: 10px;
+    border-radius:10px;
+}
+.button:hover {
+    background-color: white;
+    border: 1px solid rgb(81, 81, 81);
+    color: #7a7a7a;
+}
+
+.menu {
+    position: absolute;
+    width: 280px;
+    margin: 0 0 0 10px;
+    padding: 0px;
+    padding-top: 0px;
+
+    border-radius:10px;
+    display: flex;
+    
+    background: #ededed;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    
+    transform-origin: 0% 0%;
+    /* transform: translate(-100%, 0%); */
+
+    /* transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0) */
+    visibility: hidden;
+}
+
+.list {
+    padding: 0;
+    text-align: center;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+}
+
+.menu div ul li
+{
+    padding: 5px 0;
+    font-size: 22px;
+}
+
+.button-store {
+    background-color: #ffffff;
+    border: 1px solid #252525;
+    color: rgb(0, 0, 0);
+    padding: 0px 10px 0px 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius:5px;
+}
+.button-store:hover {
+    background-color: #555555;
+    color: white;
+    cursor: pointer;
 }
 
 .location-block {
@@ -80,7 +141,7 @@
     height: 150px;
     background-color: white;
     color: black;
-    border: 2px solid #555555;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     text-align: center;
     border-radius:10px;
     margin: 10px 10px 10px 10px;
@@ -92,7 +153,7 @@
     height: 100px;
     background-color: white;
     color: black;
-    border: 2px solid #555555;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     text-align: center;
     border-radius:10px;
     margin: 10px 10px 10px 10px;
