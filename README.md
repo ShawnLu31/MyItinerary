@@ -1,2 +1,1 @@
 # MyItinerary
-key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA
