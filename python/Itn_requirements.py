@@ -4,7 +4,7 @@ class Requirements:
         self.num_member = {'one': 0, 'two': 0, 'three': 0, 'four': 0, 'five': 0}
         self.select_set = {'attractions': 0, 'food': 0, 'entertainment': 0}
         # attractions 
-        self.attractions = {'景點一': 0}
+        self.attractions = {'景點一': 0, '景點二': 0}
         # food 
         self.food = {'taiwanese': 0, 'japanese': 0, 'italian': 0, 'french': 0, 'fast_food': 0, 'exotic': 0, 'vegetarian': 0}
         # price

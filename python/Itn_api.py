@@ -1,3 +1,5 @@
+import Itn_function as Fc
+
 """
 show itinerary
 """
@@ -26,7 +28,10 @@ def zoom_transport_on_map():
 search algorithm API
 """
 def search_onkey():
-    pass
+    # get restaurant
+    place_id = Fc.search('restaurant')
+    print(place_id)
+    # get attractions
 
 def search_onekey_storage():
     pass
