@@ -29,7 +29,6 @@ This function search the places according to the command, and return a place id.
 def search_place(place_type, location_type, keyword_list):
     rad_l = [1000, 10000, 50000]
     for rad in rad_l:
-        print(rad)
         result = search_nearby(place_type, location_type, rad, keyword_list)
 
         if result['status'] == 'OK':

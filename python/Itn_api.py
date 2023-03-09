@@ -1,5 +1,5 @@
 import Itn_function as Fc
-from Itn_requirements import Requirements 
+import Itn_requirements as Rq 
 """
 show itinerary
 """
@@ -29,8 +29,10 @@ search algorithm API
 """
 def search_onkey():
     # get restaurant
-
-    requirements = 'japanese french'
+    requirements = ''
+    for key, value in Rq.food.items():
+        if value == 1:
+            requirements += key + " "
 
     place_1_id = Fc.search_place('restaurant', 'default', requirements)
     if place_1_id != None:
@@ -38,7 +40,10 @@ def search_onkey():
 
     # get attractions
 
-    requirements = 'movie'
+    requirements = ''
+    for key, value in Rq.entertainment.items():
+        if value == 1:
+            requirements += key + " "
 
     place_2_id = Fc.search_place('movie_theater', 'default', requirements)
     if place_2_id != None:
