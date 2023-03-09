@@ -17,9 +17,6 @@ def get_search_location(type):
     else:
         default_location = (22.997409807642487, 120.22060180281467)
         return default_location
-
-def get_search_radius():
-    return 1000
 """
 This function search the places according to the command, and return a place id.
 @place_type:
@@ -31,18 +28,29 @@ This function search the places according to the command, and return a place id.
     else , is default location
 """
 def search_place(place_type, location_type):
+    rad_l = [1000, 10000, 50000]
+    for rad in rad_l:
+        print(rad)
+        result = search_nearby(place_type, location_type, rad)
+
+        if result['status'] == 'OK':
+            place_id = pick_place(result['results'], 1)
+            dump_json(place_type, result)
+            return place_id
+
+    return None
+
+def search_nearby(place_type, location_type, rad):
     result = gmaps.places_nearby(
         location=get_search_location(location_type),
-        radius=get_search_radius(),
+        radius=rad,
+        keyword=place_type,
         type=place_type,
         language='zh-TW',
-        min_price=1,
-        max_price=4,
     )
 
-    place_id = pick_place(result['results'], 1)
-        
-    return place_id
+    return result
+
 
 """
 This function return a place id.
