@@ -4,35 +4,44 @@ import random
 import Itn_keyword as kw
 from Itn_requirements import Requirements 
 
+gmaps = googlemaps.Client(key=kw.API_KEY)
+
 def get_active_requirement():
     pass
 
-def get_current_location():
-    location = (22.997409807642487, 120.22060180281467)
-    return location
+def get_search_location(type):
+    if type == 'current':
+        pass
+    elif type == 'attraction':
+        pass
+    else:
+        default_location = (22.997409807642487, 120.22060180281467)
+        return default_location
 
+def get_search_radius():
+    return 1000
 """
-This function search the places according to the command, and return a place.
-@cmd:
+This function search the places according to the command, and return a place id.
+@place_type:
     'restaurant', return a place with type 'restaurant'
     'tourist_attraction', return a place with a type 'tourist_attraction'
+@location_type:
+    'current', search location is current location.
+    'attraction', search location is about requirement attraction.
+    else , is default location
 """
-def search(place_type):
-    gmaps = googlemaps.Client(key=kw.API_KEY)
-    
+def search_place(place_type, location_type):
     result = gmaps.places_nearby(
-        location=get_current_location(),
-        radius=1000,
+        location=get_search_location(location_type),
+        radius=get_search_radius(),
         type=place_type,
-        language='zh-TW'
+        language='zh-TW',
+        min_price=1,
+        max_price=4,
     )
 
-    place_id = pick_place(result['results'], 2)
-
-    with open('./test/detail.json', 'w', encoding='utf-8') as f:
-        json.dump(result, f, ensure_ascii=False, indent=2)
+    place_id = pick_place(result['results'], 1)
         
-
     return place_id
 
 """
@@ -43,22 +52,46 @@ Choose only one place from candidates in 3 ways:
     3. distance
 """
 def pick_place(candidates, way):
+    if len(candidates) == 0:
+        return None
+
     if way == 1:
-        index = random.randint(0, len(candidates))
+        index = random.randint(0, len(candidates) - 1)
         return candidates[index]['place_id']
+
     elif way == 2:
         rating_list = [place['rating'] for place in candidates]
-        print(rating_list)
         index = rating_list.index(max(rating_list))
-        print(index)
         return candidates[index]['place_id']
+
     elif way == 3:
         pass
+
     else:
         print('ERROR, No such pick way.')
         return None
 
+def get_place_details(id):
+    details = gmaps.place(
+        place_id=id,
+        fields=['formatted_address', 'name', 'geometry/location', 'place_id', 'rating', 'url'],
+        language='zh-TW',
+    )
 
-def search_directions(place):
-    pass
+    return details
 
+def search_directions(ori, dest):
+    route = gmaps.directions(
+        origin='place_id:' + ori,
+        destination='place_id:' + dest,
+    )
+
+    return route
+    
+"""
+For debug
+"""
+def dump_json(name, data):
+    fname = './test/' + name + '.json'
+    with open(fname, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)

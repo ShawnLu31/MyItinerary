@@ -29,9 +29,19 @@ search algorithm API
 """
 def search_onkey():
     # get restaurant
-    place_id = Fc.search('restaurant')
-    print(place_id)
+    place_1_id = Fc.search_place('restaurant', 'default')
+    place_1 = Fc.get_place_details(place_1_id)
+
     # get attractions
+    place_2_id = Fc.search_place('tourist_attraction', 'default')
+    place_2 = Fc.get_place_details(place_2_id)
+
+    route = Fc.search_directions(place_1_id, place_2_id)
+
+    result = {'restaurant':place_1, 'attraction':place_2, 'route':route}
+    Fc.dump_json('result', result)
+
+    return 
 
 def search_onekey_storage():
     pass
