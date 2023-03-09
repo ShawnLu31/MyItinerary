@@ -41,10 +41,17 @@ def search_place(place_type, location_type):
     return None
 
 def search_nearby(place_type, location_type, rad):
+
+    if place_type == 'restaurant':
+        keyword = 'japanese french'
+    else:
+        keyword = place_type
+
+
     result = gmaps.places_nearby(
         location=get_search_location(location_type),
         radius=rad,
-        keyword=place_type,
+        keyword=keyword,
         type=place_type,
         language='zh-TW',
     )
