@@ -6,7 +6,7 @@ class Requirements:
         # attractions 
         self.attractions = {'景點一': 0, '景點二': 0}
         # food 
-        self.food = {'taiwanese': 0, 'japanese': 0, 'italian': 0, 'french': 0, 'fast_food': 0, 'exotic': 0, 'vegetarian': 0}
+        self.food = {'taiwanese': 0, 'japanese': 0, 'italian': 0, 'french': 0, 'fast food': 0, 'exotic': 0, 'vegetarian': 0}
         # price
         self.price = {'low': 0, 'mormal': 0, 'medium': 0, 'high': 0}
         # entertainment
@@ -14,6 +14,12 @@ class Requirements:
         # distance
         self.geo_distance = {'close': 0, 'middle': 0, 'far': 0}
         self.transport_distance = {'short': 0, 'half': 0, 'long': 0, 'hourup': 0}
+
+        self.place_type = [
+            'restaurant',
+            'movie_theater',
+            'tourist_attraction'
+        ]
 
     def modify(self, reqiurement):
         pass

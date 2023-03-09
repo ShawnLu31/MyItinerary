@@ -2,7 +2,6 @@ import googlemaps
 import json
 import random
 import Itn_keyword as kw
-from Itn_requirements import Requirements 
 
 gmaps = googlemaps.Client(key=kw.API_KEY)
 
@@ -27,11 +26,11 @@ This function search the places according to the command, and return a place id.
     'attraction', search location is about requirement attraction.
     else , is default location
 """
-def search_place(place_type, location_type):
+def search_place(place_type, location_type, keyword_list):
     rad_l = [1000, 10000, 50000]
     for rad in rad_l:
         print(rad)
-        result = search_nearby(place_type, location_type, rad)
+        result = search_nearby(place_type, location_type, rad, keyword_list)
 
         if result['status'] == 'OK':
             place_id = pick_place(result['results'], 1)
@@ -40,18 +39,12 @@ def search_place(place_type, location_type):
 
     return None
 
-def search_nearby(place_type, location_type, rad):
-
-    if place_type == 'restaurant':
-        keyword = 'japanese french'
-    else:
-        keyword = place_type
-
+def search_nearby(place_type, location_type, rad, keyword_list):
 
     result = gmaps.places_nearby(
         location=get_search_location(location_type),
         radius=rad,
-        keyword=keyword,
+        keyword=keyword_list,
         type=place_type,
         language='zh-TW',
     )
