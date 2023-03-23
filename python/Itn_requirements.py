@@ -1,64 +1,96 @@
-# intinerary style
-num_member = {
-    'one': 0, 
-    'two': 0, 
-    'three': 0, 
-    'four': 0, 
-    'five': 0
-    }
-select_set = {
-    'attractions': 0, 
-    'food': 0, 
-    'entertainment': 0
-    }
-# attractions 
-attractions = {
-    '景點一': 0, 
-    '景點二': 0
-    }
-# food 
-food = {
-    'taiwanese': 0, 
-    'japanese': 1, 
-    'italian': 1, 
-    'french': 0, 
-    'fast food': 0, 
-    'exotic': 0, 
-    'vegetarian': 0
-    }
-# price
-price = {
-    'low': 0, 
-    'mormal': 0, 
-    'medium': 0, 
-    'high': 0
-    }
-# entertainment
-entertainment = {
-    'movie': 1, 
-    'shopping': 0,
-    'romance': 0, 
-    'sports': 0, 
-    'party': 0
-    }
-# distance
-geo_distance = {
-    'close': 0, 
-    'middle': 0, 
-    'far': 0
-    }
-transport_distance = {
-    'short': 0, 
-    'half': 0, 
-    'long': 0, 
-    'hourup': 0
-    }
+"""
+'num_member', 'select_set', 'attractions', 'food', 'price', 'entertainment', 'geo_distance', 'transport_distance',  'transport_distance'
+"""
 
+# intinerary style
+reqiurements_list = {
+    'num_member' : {
+        'one': False, 
+        'two': False, 
+        'three': False, 
+        'four': False, 
+        'five': False
+        },
+    'select_set' : {
+        'attractions': False, 
+        'food': False, 
+        'entertainment': False
+        },
+    # attractions 
+    'attractions' : {
+        '景點一': False, 
+        '景點二': False
+        },
+    # food 
+    'food' : {
+        'taiwanese': False, 
+        'japanese': False, 
+        'italian': False, 
+        'french': False, 
+        'fast food': False, 
+        'exotic': False, 
+        'vegetarian': False
+        },
+    # price
+    'price' : {
+        'low': False, 
+        'normal': False, 
+        'medium': False, 
+        'high': False
+        },
+    # entertainment
+    'entertainment' : {
+        'movie': False, 
+        'shopping': False,
+        'romance': False, 
+        'sports': False, 
+        'party': False
+        },
+    # distance
+    'geo_distance' : {
+        'close': False, 
+        'middle': False, 
+        'far': False
+        },
+    'transport_distance' : {
+        'short': False, 
+        'half': False, 
+        'long': False, 
+        'hourup': False
+        }
+}
 place_type = [
-    'restaurant',
-    'movie_theater',
-    'tourist_attraction'
+        'restaurant',
+        'movie_theater',
+        'tourist_attraction',
+        'shopping_mall'
 ]
 
-def modify(self, reqiurement):
-    pass
+def modify_reqiurements(type, rq, value):
+    reqiurements_list[type][rq] = value
+
+"""
+getReqiurement:
+@types, a list with what kinds of requirement should be return:
+    'all', 'num_member',   ...
+"""
+def get_reqiurements(types):
+    actice_reqiurements = []
+    if not types:
+        print("Error, empty list!")
+
+    else:
+        if types == ['all']:
+            types = ['num_member', 'select_set', 'attractions', 'food', 'price', 'entertainment', 'geo_distance', 'transport_distance',  'transport_distance']
+
+        for type in types:
+            for key, value in reqiurements_list[type].items():
+                if value == True:
+                    actice_reqiurements.append(key)
+
+    return actice_reqiurements
+
+def clear_requirements():
+    for _, dic in reqiurements_list.items():
+        for key in dic:
+            dic[key] = False

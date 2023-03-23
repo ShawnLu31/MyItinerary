@@ -2,11 +2,17 @@ import googlemaps
 import json
 import random
 import Itn_keyword as kw
+import Itn_requirements as Rq 
 
 gmaps = googlemaps.Client(key=kw.API_KEY)
 
-def get_active_requirement():
-    pass
+def get_keyword_list(types):
+    active_requirement = Rq.get_reqiurements(types)
+    keyword_list = ""
+    for rq in active_requirement:
+        keyword_list += rq + " "
+
+    return keyword_list
 
 def get_search_location(type):
     if type == 'current':
@@ -26,31 +32,90 @@ This function search the places according to the command, and return a place id.
     'attraction', search location is about requirement attraction.
     else , is default location
 """
-def search_place(place_type, location_type, keyword_list):
+def search_place(place_type, location_type, requirements):
+
+    pl_type, keyword_list, min_price, max_price = analye_requirements(requirements)
+
     rad_l = [1000, 10000, 50000]
     for rad in rad_l:
-        result = search_nearby(place_type, location_type, rad, keyword_list)
+        result = search_nearby(
+            place_type if pl_type is None else pl_type, 
+            location_type, 
+            rad, 
+            keyword_list, 
+            min_price, 
+            max_price
+        )
 
         if result['status'] == 'OK':
             place_id = pick_place(result['results'], 1)
-            dump_json(place_type, result)
+            dump_json(place_type if pl_type == None else pl_type, result)
             return place_id
 
     return None
 
-def search_nearby(place_type, location_type, rad, keyword_list):
-
+def search_nearby(place_type, location_type, rad, keyword_list, min_price, max_price):
     result = gmaps.places_nearby(
         location=get_search_location(location_type),
         radius=rad,
         keyword=keyword_list,
+        min_price=min_price,
+        max_price=max_price,
         type=place_type,
         language='zh-TW',
     )
 
     return result
 
+def analye_requirements(requirements):
+    keyword_list = ""
+    place_type = None
+    min_price = None
+    max_price = None
+    for rq in requirements:
+        if rq == 'food':
+            keyword_list = get_keyword_list(['food'])
+            place_type = Rq.place_type[0]
 
+        if rq == 'price':
+            price = Rq.get_reqiurements(['price'])
+
+            if price[0] == 'low':
+                min_price = 0
+            elif price[0] == 'normal':
+                min_price = 1
+            elif price[0] == 'medium':
+                min_price = 2
+            elif price[0] == 'high':
+                min_price = 3
+            else:
+                min_price = 0
+
+            if price[-1] == 'low':
+                max_price = 0
+            elif price[-1] == 'normal':
+                max_price = 1
+            elif price[-1] == 'medium':
+                max_price = 2
+            elif price[-1] == 'high':
+                max_price = 3
+            else:
+                max_price = 3
+
+        if rq == 'entertainment':
+            entertainment = Rq.get_reqiurements(['entertainment'])
+
+            for ent in entertainment:
+                if ent == 'movie':
+                    place_type = Rq.place_type[1]
+                if ent == 'shopping':
+                    place_type = Rq.place_type[3]
+                if ent == 'romance':
+                    pass
+
+
+    print(place_type, ",", keyword_list, min_price, max_price)
+    return place_type, keyword_list, min_price, max_price
 """
 This function return a place id.
 Choose only one place from candidates in 3 ways:
@@ -81,7 +146,7 @@ def pick_place(candidates, way):
 def get_place_details(id):
     details = gmaps.place(
         place_id=id,
-        fields=['formatted_address', 'name', 'geometry/location', 'place_id', 'rating', 'url'],
+        fields=['formatted_address', 'name', 'geometry/location', 'place_id', 'rating', 'url', 'type'],
         language='zh-TW',
     )
 
