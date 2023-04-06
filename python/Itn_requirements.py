@@ -66,8 +66,10 @@ place_type = [
         'shopping_mall'
 ]
 
-def modify_reqiurements(type, rq, value):
-    reqiurements_list[type][rq] = value
+def modify_reqiurements(rq, value):
+    for type in reqiurements_list.keys():
+        if rq in  reqiurements_list[type].keys():
+            reqiurements_list[type][rq] = value
 
 """
 getReqiurement:

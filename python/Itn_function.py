@@ -80,6 +80,9 @@ def analye_requirements(requirements):
         if rq == 'price':
             price = Rq.get_reqiurements(['price'])
 
+            if price == []:
+                continue
+            
             if price[0] == 'low':
                 min_price = 0
             elif price[0] == 'normal':

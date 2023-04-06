@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect, url_for
 import json
 
 import Itn_search as Srh
@@ -6,17 +6,33 @@ import Itn_requirements as Rq
 
 app = Flask(__name__)
 
-@app.route('/',methods=['GET'])
+@app.route('/',methods=['GET', 'POST'])
 def home():
+    if request.method == 'GET':
+        return render_template('web.html')
+
     return render_template('web.html')
+    
 
 @app.route('/search', methods=['POST'])
 def search():
-    return "search"
+    print("search")
+    
+    Srh.search_reqiurement('a')
+
+    return redirect('/')
 
 @app.route('/modify', methods=['POST'])
 def modifyRequirements():
-    return "modify"
+    print("modify")
+    if request.method == 'POST':
+        # get requirement value
+        reqs = request.form.getlist("requirement")
+
+        for rq in reqs:
+            Rq.modify_reqiurements(rq, True)
+
+    return redirect('/')
 
 if __name__ == '__main__':
     app.run(debug=True)

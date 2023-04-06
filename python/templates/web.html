@@ -11,9 +11,11 @@
         <div id="Body">
             <!--search sidebar-->
             <div id="Sidebar">
+                <form action="/search" method="post">
                 <div style="margin-top: 10px;">
-                    <button class="button-onekey" onclick="One_key_example();">一鍵行程</button>
+                    <button type="submit" class="button-onekey" onclick="One_key_example();">一鍵行程</button>
                 </div>
+                </form>
                 <div style="height: 50px; text-align: center; 
                             padding: 15px 32px;                            
                             text-align: center;
@@ -28,20 +30,23 @@
                         <div id="menu1" class="menu" disply="flex">
                             <div style="text-align: center; flex: none; width: 50%;" >
                                 <h2>參與人數</h2>
+                                <form action="/modify" method="post">
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">一人</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">雙人</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">三人</label></li>
-                                    <li><input type="checkbox" name="4"><label for="3">四人</label></li>
-                                    <li><input type="checkbox" name="5"><label for="3">五人以上</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="1">一人</label></li>
+                                    <li><input type="checkbox" name="requirement" value="two"><label for="2">雙人</label></li>
+                                    <li><input type="checkbox" name="requirement" value="three"><label for="3">三人</label></li>
+                                    <li><input type="checkbox" name="requirement" value="four"><label for="3">四人</label></li>
+                                    <li><input type="checkbox" name="requirement" value="five"><label for="3">五人以上</label></li>
                                 </ul>
+                                    <input type="submit">
+                                </form>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>組合</h2>
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">景點</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">響食</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">娛樂</label></li>
+                                    <li><input type="checkbox" name="requirement" value="attractions"><label for="1">景點</label></li>
+                                    <li><input type="checkbox" name="requirement" value="food"><label for="2">響食</label></li>
+                                    <li><input type="checkbox" name="requirement" value="entertainment"><label for="3">娛樂</label></li>
                                 </ul>
                             </div>
                         </div>
@@ -53,11 +58,11 @@
                             <div style="text-align: center; flex: auto; width: 100%;">
                                 <h2>喜愛</h2>
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">景點1</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">景點2</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">景點3</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">景點4</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">景點5</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="1">景點1</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="2">景點2</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點3</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點4</label></li>
+                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點5</label></li>
                                 </ul>
                             </div>
                         </div>
@@ -68,24 +73,30 @@
                         <div id="menu3" class="menu" disply="flex">
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>類型</h2>
+                                <form action="/modify" method="post">
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">台式</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">日式</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">意式</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">法式</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">速食</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">異國</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">素食</label></li>
+                                    <li><input type="checkbox" name="requirement" value="taiwanese"><label for="1">台式</label></li>
+                                    <li><input type="checkbox" name="requirement" value="japanese"><label for="2">日式</label></li>
+                                    <li><input type="checkbox" name="requirement" value="italian"><label for="3">意式</label></li>
+                                    <li><input type="checkbox" name="requirement" value="french"><label for="3">法式</label></li>
+                                    <li><input type="checkbox" name="requirement" value="fast food"><label for="3">速食</label></li>
+                                    <li><input type="checkbox" name="requirement" value="exotic"><label for="3">異國</label></li>
+                                    <li><input type="checkbox" name="requirement" value="vegetarian"><label for="3">素食</label></li>
                                 </ul>
+                                    <input type="submit">
+                                </form>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>價位</h2>
+                                <form action="/modify" method="post">
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">$</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">$$</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">$$$</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">$$$$</label></li>
+                                    <li><input type="checkbox" name="requirement" value="low"><label for="1">$</label></li>
+                                    <li><input type="checkbox" name="requirement" value="normal"><label for="2">$$</label></li>
+                                    <li><input type="checkbox" name="requirement" value="medium"><label for="3">$$$</label></li>
+                                    <li><input type="checkbox" name="requirement" value="high"><label for="3">$$$$</label></li>
                                 </ul>
+                                    <input type="submit">
+                                </form>
                             </div>
                         </div>
                     </span>
@@ -95,13 +106,16 @@
                         <div id="menu4" class="menu" disply="flex">
                             <div style="text-align: center; flex: auto; width: 100%;">
                                 <h2>類型</h2>
+                                <form action="/modify" method="post">
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">電影</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">購物</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">浪漫</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">運動</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">派對</label></li>
+                                    <li><input type="checkbox" name="requirement" value="moive"><label for="1">電影</label></li>
+                                    <li><input type="checkbox" name="requirement" value="shopping"><label for="2">購物</label></li>
+                                    <li><input type="checkbox" name="requirement" value="romance"><label for="3">浪漫</label></li>
+                                    <li><input type="checkbox" name="requirement" value="sporys"><label for="3">運動</label></li>
+                                    <li><input type="checkbox" name="requirement" value="party"><label for="3">派對</label></li>
                                 </ul>
+                                    <input type="submit">
+                                </form>
                             </div>
                         </div>
                     </span>
@@ -112,25 +126,24 @@
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>地理</h2>
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">短</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">中</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">長</label></li>
+                                    <li><input type="checkbox" name="requirement" value="close"><label for="1">短</label></li>
+                                    <li><input type="checkbox" name="requirement" value="middle"><label for="2">中</label></li>
+                                    <li><input type="checkbox" name="requirement" value="far"><label for="3">長</label></li>
                                 </ul>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>交通</h2>
                                 <ul class="list">
-                                    <li><input type="checkbox" name="1"><label for="1">0~10 分</label></li>
-                                    <li><input type="checkbox" name="2"><label for="2">10~30 分</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">30~60 分</label></li>
-                                    <li><input type="checkbox" name="3"><label for="3">60 分以上</label></li>
+                                    <li><input type="checkbox" name="requirement" value="short"><label for="1">0~10 分</label></li>
+                                    <li><input type="checkbox" name="requirement" value="half"><label for="2">10~30 分</label></li>
+                                    <li><input type="checkbox" name="requirement" value="long"><label for="3">30~60 分</label></li>
+                                    <li><input type="checkbox" name="requirement" value="hourup"><label for="3">60 分以上</label></li>
                                 </ul>
                             </div>
                         </div>
                     </span>
                     <!--其他-->
                     <button class="button" onclick="menuBtnClicked(this);">其他</button>
-
                     <script>
                         function menuBtnClicked(elem){
                             let menu
@@ -150,13 +163,6 @@
                                 menu = document.querySelector("#menu5");
                             }
 
-                            // if (menu.style.transform == "none") {  
-                            //     menu.style.transform="translate(-100%, 0)";
-                            // }
-                            // else {
-                            //     menu.style.transform="none";
-                            // }
-
                             if (menu.style.visibility == "visible") {  
                                 menu.style.visibility="hidden";
                             }
@@ -165,43 +171,6 @@
                             }
                         }
                     
-                    </script>
-                    <script>
-                        function One_key_example() {
-                            // 文字搜尋
-                            search_requests = "https://maps.googleapis.com/maps/api/place/textsearch/json?"
-                            parameters = "location=22.997409807642487%2120.22060180281467&query=restaurants"
-                            MY_API_KEY = "&key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA"
-                            url = search_requests + parameters + MY_API_KEY
-
-                            // 地點 detail
-                            detail_requests = "https://maps.googleapis.com/maps/api/place/details/json?"
-                            parameters = "fields=name%2Crating%2Cformatted_phone_number&place_id=ChIJN1t_tDeuEmsRUsoyG83frY4"
-                            url = detail_requests + parameters + MY_API_KEY
-
-                            // var axios = require('axios');
-
-                            // var config = {
-                            //     method: 'get',
-                            //     url: search_requests,
-                            //     headers: { }
-                            // };
-
-                            // axios(config).then(function (response) {
-                            //     console.log(JSON.stringify(response.data));
-                            // })
-                            // .catch(function (error) {
-                            //     console.log(error);
-                            // });
-                            fetch(url)
-                            .then(res => res.json())
-                            .then((data) => {
-
-                                console.log(data);
-                            }).catch(err => console.error(err));
-
-                            
-                        }
                     </script>
                 </div>
             </div>
