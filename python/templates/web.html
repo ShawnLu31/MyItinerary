@@ -11,9 +11,9 @@
         <div id="Body">
             <!--search sidebar-->
             <div id="Sidebar">
-                <form action="/search" method="post">
+                <form action="/search" method="post" name="form_search" id="form_search">
                 <div style="margin-top: 10px;">
-                    <button type="submit" class="button-onekey" onclick="One_key_example();">一鍵行程</button>
+                    <button class="button-onekey" onclick="search();">一鍵行程</button>
                 </div>
                 </form>
                 <div style="height: 50px; text-align: center; 
@@ -145,6 +145,18 @@
                     <!--其他-->
                     <button class="button" onclick="menuBtnClicked(this);">其他</button>
                     <script>
+                        function search(){
+                            var checkboxes  = document.querySelectorAll('input[type=checkbox]:checked')
+                            var arr = []
+                            
+                            for (var i = 0; i < checkboxes.length; i++) {
+                                arr.push(checkboxes[i].value);
+                                console.log(checkboxes[i].value);
+                            }
+                            document.getElementById("form_search").append($(arr))
+                            document.getElementById("form_search").submit();
+                        }
+
                         function menuBtnClicked(elem){
                             let menu
                             if (elem.id == "itinerary_style_btn") {
@@ -185,21 +197,18 @@
                 </div>
                 <!--itinerary choice-->
                 <div  style="margin-top: 10px;"> 
-                    <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()";>itinerary 1</div>
-                    <div class="itinerary-choice-block" style="line-height: 150px;">itinerary 2</div>
-                    <div class="itinerary-choice-block" style="line-height: 150px;">itinerary 3</div>
+                    <form action="/show" method="get" name="form_itinerary" id="form_itinerary">
+                        <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()"; >itinerary 1</div>
+                        <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 2</div>
+                        <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 3</div>
+                    </form>
                 </div>
             </div>
             <script>
                 function itinerary1(){
                     let detail = document.querySelector('[data-target="detail"]')
-                    
-                    if (detail.style.visibility=="visible") {
-                        detail.style.visibility="hidden";
-                    }
-                    else {
-                        detail.style.visibility="visible";
-                    }
+                    document.getElementById("form_itinerary").submit(); // form submission
+                
                 }
             </script>
 
@@ -220,10 +229,24 @@
                     </div>
                 </span>
                 <!--itinerary detail -->
-                <div style="margin-top: 10px; visibility: hidden;" data-target="detail"> 
-                    <div class="location-block">location example</div>
-                    <div class="transport-block">transport example</div>
-                    <div class="location-block">location example</div>
+                <div style="margin-top: 10px; visibility: visible;" data-target="detail"> 
+                    {% if placeInfo1 != undefined %}
+                    <div class="location-block">
+                        <h1>{{placeInfo1.name}}</h1>
+                        <div>{{placeInfo1.addr}}</div>
+                        <div>rating: {{placeInfo1.rating}}</div>
+                    </div>
+                    {% endif %}
+                    {% if routeInfo1 != undefined %}
+                    <div class="transport-block">{{routeInfo1.route}}</div>
+                    {% endif %}
+                    {% if placeInfo2 != undefined %}
+                    <div class="location-block">
+                        <h1>{{placeInfo2.name}}</h1>
+                        <div>{{placeInfo2.addr}}</div>
+                        <div>rating: {{placeInfo2.rating}}</div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <!-- google map space-->

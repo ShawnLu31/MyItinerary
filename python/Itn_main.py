@@ -17,8 +17,8 @@ def home():
 @app.route('/search', methods=['POST'])
 def search():
     print("search")
-    
-    Srh.search_reqiurement('a')
+    print(request)
+    Srh.search_reqiurement('1')
 
     return redirect('/')
 
@@ -33,6 +33,32 @@ def modifyRequirements():
             Rq.modify_reqiurements(rq, True)
 
     return redirect('/')
+
+@app.route('/show', methods=['GET'])
+def show():
+    print("show")
+    return redirect(url_for('showPlaceDetail'))
+
+@app.route('/show/place_detail', methods=['GET'])
+def showPlaceDetail():
+    with open('./test/result1.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+
+    p1 = {
+        'name': data['restaurant']['result']['name'],
+        'addr': data['restaurant']['result']['formatted_address'],
+        'rating': data['restaurant']['result']['rating']
+    }
+    p2 = {
+        'name': data['attraction']['result']['name'],
+        'addr': data['attraction']['result']['formatted_address'],
+        'rating': data['attraction']['result']['rating']
+    }
+    route = {
+        'route': data['route'][0]['summary'],
+
+    }
+    return render_template('web.html', placeInfo1=p1, placeInfo2=p2, routeInfo1=route)
 
 if __name__ == '__main__':
     app.run(debug=True)
