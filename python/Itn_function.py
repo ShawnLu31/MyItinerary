@@ -107,17 +107,17 @@ def analye_requirements(requirements):
 
         if rq == 'entertainment':
             entertainment = Rq.get_reqiurements(['entertainment'])
-
             for ent in entertainment:
-                if ent == 'movie':
-                    place_type = Rq.place_type[1]
                 if ent == 'shopping':
                     place_type = Rq.place_type[3]
+                if ent == 'movie':
+                    place_type = Rq.place_type[1]
                 if ent == 'romance':
                     pass
 
-
-    print(place_type, ",", keyword_list, min_price, max_price)
+    print("place type: ", place_type)
+    print("keyword_list: ", keyword_list)
+    print("price: ", min_price, max_price)
     return place_type, keyword_list, min_price, max_price
 """
 This function return a place id.
@@ -170,3 +170,5 @@ def dump_json(name, data):
     fname = './test/' + name + '.json'
     with open(fname, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
+    f.close
+    

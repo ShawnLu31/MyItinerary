@@ -17,8 +17,7 @@ def home():
 @app.route('/search', methods=['POST'])
 def search():
     print("search")
-    print(request)
-    Srh.search_reqiurement('1')
+    Srh.search_reqiurement('2')
 
     return redirect('/')
 
@@ -27,8 +26,8 @@ def modifyRequirements():
     print("modify")
     if request.method == 'POST':
         # get requirement value
-        reqs = request.form.getlist("requirement")
-
+        reqs = request.json['requirements']
+        print("reqs: ",reqs)
         for rq in reqs:
             Rq.modify_reqiurements(rq, True)
 
@@ -41,9 +40,9 @@ def show():
 
 @app.route('/show/place_detail', methods=['GET'])
 def showPlaceDetail():
-    with open('./test/result1.json', 'r', encoding='utf-8') as f:
+    with open('./test/result2.json', 'r', encoding='utf-8') as f:
         data = json.load(f)
-
+    # deatils
     p1 = {
         'name': data['restaurant']['result']['name'],
         'addr': data['restaurant']['result']['formatted_address'],
@@ -58,7 +57,23 @@ def showPlaceDetail():
         'route': data['route'][0]['summary'],
 
     }
-    return render_template('web.html', placeInfo1=p1, placeInfo2=p2, routeInfo1=route)
+    
+    Rq.clear_requirements() #########################
+
+    # show routes on map
+
+    return render_template('web.html', placeInfo1=p1, placeInfo2=p2, routeInfo1=route, initMap=False)
+
+@app.route('/show/map_detail', methods=['GET'])
+def showMapInfo():
+    with open('./test/result2.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    mapInfo = {
+        'p1': data['restaurant']['result']['place_id'],
+        'p2': data['attraction']['result']['place_id']
+    }
+    print(mapInfo)
+    return mapInfo
 
 if __name__ == '__main__':
     app.run(debug=True)

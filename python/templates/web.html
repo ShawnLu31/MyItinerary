@@ -4,18 +4,17 @@
         <meta charset="utf-8" />
         <title>MyItinerary</title>
         <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.4.1.js"
+            integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
     </head>
     <body>
         <div id="Header">My Itinerary</div>
         <div id="Body">
             <!--search sidebar-->
             <div id="Sidebar">
-                <form action="/search" method="post" name="form_search" id="form_search">
                 <div style="margin-top: 10px;">
                     <button class="button-onekey" onclick="search();">一鍵行程</button>
                 </div>
-                </form>
                 <div style="height: 50px; text-align: center; 
                             padding: 15px 32px;                            
                             text-align: center;
@@ -30,7 +29,6 @@
                         <div id="menu1" class="menu" disply="flex">
                             <div style="text-align: center; flex: none; width: 50%;" >
                                 <h2>參與人數</h2>
-                                <form action="/modify" method="post">
                                 <ul class="list">
                                     <li><input type="checkbox" name="requirement" value="one"><label for="1">一人</label></li>
                                     <li><input type="checkbox" name="requirement" value="two"><label for="2">雙人</label></li>
@@ -38,8 +36,6 @@
                                     <li><input type="checkbox" name="requirement" value="four"><label for="3">四人</label></li>
                                     <li><input type="checkbox" name="requirement" value="five"><label for="3">五人以上</label></li>
                                 </ul>
-                                    <input type="submit">
-                                </form>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>組合</h2>
@@ -73,7 +69,6 @@
                         <div id="menu3" class="menu" disply="flex">
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>類型</h2>
-                                <form action="/modify" method="post">
                                 <ul class="list">
                                     <li><input type="checkbox" name="requirement" value="taiwanese"><label for="1">台式</label></li>
                                     <li><input type="checkbox" name="requirement" value="japanese"><label for="2">日式</label></li>
@@ -83,20 +78,15 @@
                                     <li><input type="checkbox" name="requirement" value="exotic"><label for="3">異國</label></li>
                                     <li><input type="checkbox" name="requirement" value="vegetarian"><label for="3">素食</label></li>
                                 </ul>
-                                    <input type="submit">
-                                </form>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
                                 <h2>價位</h2>
-                                <form action="/modify" method="post">
                                 <ul class="list">
                                     <li><input type="checkbox" name="requirement" value="low"><label for="1">$</label></li>
                                     <li><input type="checkbox" name="requirement" value="normal"><label for="2">$$</label></li>
                                     <li><input type="checkbox" name="requirement" value="medium"><label for="3">$$$</label></li>
                                     <li><input type="checkbox" name="requirement" value="high"><label for="3">$$$$</label></li>
                                 </ul>
-                                    <input type="submit">
-                                </form>
                             </div>
                         </div>
                     </span>
@@ -106,7 +96,6 @@
                         <div id="menu4" class="menu" disply="flex">
                             <div style="text-align: center; flex: auto; width: 100%;">
                                 <h2>類型</h2>
-                                <form action="/modify" method="post">
                                 <ul class="list">
                                     <li><input type="checkbox" name="requirement" value="moive"><label for="1">電影</label></li>
                                     <li><input type="checkbox" name="requirement" value="shopping"><label for="2">購物</label></li>
@@ -114,8 +103,6 @@
                                     <li><input type="checkbox" name="requirement" value="sporys"><label for="3">運動</label></li>
                                     <li><input type="checkbox" name="requirement" value="party"><label for="3">派對</label></li>
                                 </ul>
-                                    <input type="submit">
-                                </form>
                             </div>
                         </div>
                     </span>
@@ -146,15 +133,29 @@
                     <button class="button" onclick="menuBtnClicked(this);">其他</button>
                     <script>
                         function search(){
-                            var checkboxes  = document.querySelectorAll('input[type=checkbox]:checked')
+                            var checkboxes  = document.querySelectorAll('input[name="requirement"]:checked')
                             var arr = []
                             
                             for (var i = 0; i < checkboxes.length; i++) {
                                 arr.push(checkboxes[i].value);
                                 console.log(checkboxes[i].value);
                             }
-                            document.getElementById("form_search").append($(arr))
-                            document.getElementById("form_search").submit();
+
+                            $.ajax({
+                                url: '/modify',
+                                method: 'POST',
+                                contentType: 'application/json',
+                                data: JSON.stringify({"requirements": arr}),
+                                success: function(res){console.log(res)},
+                                error:function(err){console.log(err)},
+                            });
+                            
+                            $.ajax({
+                                url: '/search',
+                                method: 'POST',
+                                success: function(res){console.log(res)},
+                                error:function(err){console.log(err)},
+                            });
                         }
 
                         function menuBtnClicked(elem){
@@ -198,7 +199,7 @@
                 <!--itinerary choice-->
                 <div  style="margin-top: 10px;"> 
                     <form action="/show" method="get" name="form_itinerary" id="form_itinerary">
-                        <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()"; >itinerary 1</div>
+                        <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()";>itinerary 1</div>
                         <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 2</div>
                         <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 3</div>
                     </form>
@@ -208,7 +209,34 @@
                 function itinerary1(){
                     let detail = document.querySelector('[data-target="detail"]')
                     document.getElementById("form_itinerary").submit(); // form submission
-                
+                }
+                function route(){
+                    var map = new google.maps.Map(document.getElementById('Map'), {
+                        zoom: 15,
+                    });
+                    var directionsService = new google.maps.DirectionsService();
+                    var directionsRenderer = new google.maps.DirectionsRenderer();
+
+                    $.ajax({
+                        url: '/show/map_detail',
+                        method: 'GET',
+                        data: {},
+                        success: function(data){
+                            let request = {
+                                origin: {placeId: data.p1},
+                                destination: {placeId: data.p2},
+                                travelMode: 'WALKING'
+                            };
+
+                            directionsRenderer.setMap(map);
+                            directionsService.route(request, function(response, status) {
+                                if (status == 'OK') {
+                                    directionsRenderer.setDirections(response);
+                                }
+                            });
+                        },
+                        error:function(err){console.log(err)},
+                    });
                 }
             </script>
 
@@ -264,10 +292,17 @@
                     });
                 }
             </script>
-            <script async defer
+            {% if initMap == undefined %}
+            <script
                 MY_API_KEY = "AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA"
                 src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA&callback=initMap">
             </script>
+            {% else %}
+            <script
+                MY_API_KEY = "AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA"
+                src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAh-z7VrAeBlt_2IGCJWMlSQOUtWndj3pA&callback=route">
+            </script>
+            {% endif %}
         </div>
     </body>
 </html>
