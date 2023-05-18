@@ -1,6 +1,7 @@
 import googlemaps
 import json
 import random
+import numpy as np
 import Itn_keyword as kw
 import Itn_requirements as Rq 
 
@@ -14,33 +15,38 @@ def get_keyword_list(types):
 
     return keyword_list
 
-def get_search_location(type):
-    if type == 'current':
-        pass
-    elif type == 'attraction':
-        pass
-    else:
-        default_location = (22.997409807642487, 120.22060180281467)
-        return default_location
+def get_location(loc):
+    if isinstance(loc, tuple):
+        return loc
+    if isinstance(loc, str):
+        result = gmaps.place(
+            place_id=loc,
+            fields=['geometry/location'],
+            language='zh-TW',
+        )
+        lat = result['result']['geometry']['location']['lat']
+        lng = result['result']['geometry']['location']['lng']
+        return (lat, lng) 
+
 """
 This function search the places according to the command, and return a place id.
 @place_type:
     'restaurant', return a place with type 'restaurant'
     'tourist_attraction', return a place with a type 'tourist_attraction'
-@location_type:
+@location:
     'current', search location is current location.
     'attraction', search location is about requirement attraction.
     else , is default location
 """
-def search_place(place_type, location_type, requirements):
+def search_place(place_type, loc, requirements):
 
     pl_type, keyword_list, min_price, max_price = analye_requirements(requirements)
-
+    loc
     rad_l = [1000, 10000, 50000]
     for rad in rad_l:
         result = search_nearby(
             place_type if pl_type is None else pl_type, 
-            location_type, 
+            get_location(loc), 
             rad, 
             keyword_list, 
             min_price, 
@@ -48,15 +54,15 @@ def search_place(place_type, location_type, requirements):
         )
 
         if result['status'] == 'OK':
-            place_id = pick_place(result['results'], 1)
+            place_id = pick_place(get_location(loc), result['results'], 3)
             dump_json(place_type if pl_type == None else pl_type, result)
             return place_id
 
     return None
 
-def search_nearby(place_type, location_type, rad, keyword_list, min_price, max_price):
+def search_nearby(place_type, location, rad, keyword_list, min_price, max_price):
     result = gmaps.places_nearby(
-        location=get_search_location(location_type),
+        location=location,
         radius=rad,
         keyword=keyword_list,
         min_price=min_price,
@@ -126,7 +132,7 @@ Choose only one place from candidates in 3 ways:
     2. rating score
     3. distance
 """
-def pick_place(candidates, way):
+def pick_place(origin, candidates, way):
     if len(candidates) == 0:
         return None
 
@@ -140,8 +146,11 @@ def pick_place(candidates, way):
         return candidates[index]['place_id']
 
     elif way == 3:
-        pass
-
+        place_loc = np.array([(place['geometry']['location']['lat'], place['geometry']['location']['lng']) for place in candidates])
+        dist = abs(place_loc - np.array(origin))
+        sum_dist = np.sum(dist, axis=1)
+        index = np.argmin(sum_dist)
+        return candidates[index]['place_id']
     else:
         print('ERROR, No such pick way.')
         return None

@@ -3,6 +3,7 @@ import json
 
 import Itn_search as Srh
 import Itn_requirements as Rq 
+import placeloc as pl
 
 app = Flask(__name__)
 
@@ -17,7 +18,9 @@ def home():
 @app.route('/search', methods=['POST'])
 def search():
     print("search")
-    Srh.search_reqiurement('2')
+    # Srh.search_reqiurement('2')
+    Srh.search_onekey('onekey')
+    # pl.get_place_loc()
 
     return redirect('/')
 
@@ -40,7 +43,8 @@ def show():
 
 @app.route('/show/place_detail', methods=['GET'])
 def showPlaceDetail():
-    with open('./test/result2.json', 'r', encoding='utf-8') as f:
+    fname = './test/' + 'resultonekey' +'.json'
+    with open(fname, 'r', encoding='utf-8') as f:
         data = json.load(f)
     # deatils
     p1 = {
@@ -66,7 +70,8 @@ def showPlaceDetail():
 
 @app.route('/show/map_detail', methods=['GET'])
 def showMapInfo():
-    with open('./test/result2.json', 'r', encoding='utf-8') as f:
+    fname = './test/' + 'resultonekey' +'.json'
+    with open(fname, 'r', encoding='utf-8') as f:
         data = json.load(f)
     mapInfo = {
         'p1': data['restaurant']['result']['place_id'],
@@ -77,26 +82,6 @@ def showMapInfo():
 
 if __name__ == '__main__':
     app.run(debug=True)
-    # # 範例 1
-    # Rq.modify_reqiurements('food', 'japanese', True)
-    # Rq.modify_reqiurements('price', 'normal', True)
-    # Srh.search_reqiurement('1')
-    # Rq.clear_requirements()
-
-    # # 範例 2
-    # Rq.modify_reqiurements('food', 'fast food', True)
-    # Rq.modify_reqiurements('entertainment', 'movie', True)
-    # Rq.modify_reqiurements('price', 'low', True)
-    # Srh.search_reqiurement('2')
-    # Rq.clear_requirements()
-
-    # # 範例 3
-    # Rq.modify_reqiurements('food', 'french', True)
-    # Rq.modify_reqiurements('food', 'italian', True)
-    # Rq.modify_reqiurements('entertainment', 'shopping', True)
-    # Rq.modify_reqiurements('price', 'low', True)
-    # Rq.modify_reqiurements('price', 'high', True)
-    # Srh.search_reqiurement('3')
-    # Rq.clear_requirements()
+    
 
 
