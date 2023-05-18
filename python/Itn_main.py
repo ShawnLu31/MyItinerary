@@ -3,7 +3,6 @@ import json
 
 import Itn_search as Srh
 import Itn_requirements as Rq 
-import placeloc as pl
 
 app = Flask(__name__)
 

@@ -1,5 +1,5 @@
 import Itn_function as Fc
-
+import random
 """
 show itinerary
 """
@@ -40,14 +40,16 @@ attr = [{'place_name':"臺南市美術館2館",
 def search_onekey(stamp):
     # get restaurant
 
-    place_1_id = Fc.search_place('restaurant', attr[2]['place_id'], ['food', 'price'])
+    att = attr[random.randint(0, 2)]['place_id']
+
+    place_1_id = Fc.search_place('restaurant', att, ['food', 'price'])
     if place_1_id != None:
         print("Find place_1")
         place_1 = Fc.get_place_details(place_1_id)
 
     # get attractions
 
-    place_2_id = attr[2]['place_id']
+    place_2_id = att
     if place_2_id != None:
         print("Find place_2")
         place_2 = Fc.get_place_details(place_2_id)
