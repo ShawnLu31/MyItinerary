@@ -1,0 +1,117 @@
+[
+  {
+    "place_name": "赤崁樓",
+    "place_id": "ChIJbYl7d2F2bjQRnFdvyMBuZfI",
+    "cost": 50
+  },
+  {
+    "place_name": "臺南市美術館2館",
+    "place_id": "ChIJ7Ruxw3x2bjQRZk4MEAECIq4",
+    "cost": 100
+  },
+  {
+    "place_name": "臺南市美術館1館",
+    "place_id": "ChIJEW-wHYh2bjQRMcOg9y-LPFk",
+    "cost": 100
+  },
+  {
+    "place_name": "安平樹屋",
+    "place_id": "ChIJlynOByF3bjQR_IzNSlgH-Ss",
+    "cost": 100
+  },
+  {
+    "place_name": "奇美博物館",
+    "place_id": "ChIJq6qqqnp0bjQRpvTHZeYTjKg",
+    "cost": 200
+  },
+  {
+    "place_name": "河樂廣場",
+    "place_id": "ChIJi1YTdnd3bjQR6TeBoScvyk0",
+    "cost": 0
+  },
+  {
+    "place_name": "安平古堡",
+    "place_id": "ChIJZ-TjeHN2bjQR8a3Jat0VHps",
+    "cost": 100
+  },
+  {
+    "place_name": "關子嶺溫泉",
+    "place_id": "ChIJSfNljJ2NbjQRKpPO1fEKKsk",
+    "cost": 2000
+  },
+  {
+    "place_name": "四草綠色隧道",
+    "place_id": "ChIJt0-ISOvYbTQRhg3rUteyQIw",
+    "cost": 200
+  },
+  {
+    "place_name": "漁光島",
+    "place_id": "ChIJ87qwKf11bjQRMuEmcom6RX8",
+    "cost": 0
+  },
+  {
+    "place_name": "麻豆代天府",
+    "place_id": "ChIJkQk5r9F9bjQR7T60qmYnd5s",
+    "cost": 0
+  },
+  {
+    "place_name": "鹿耳門天后宮",
+    "place_id": "ChIJQwtjhvfYbTQRL3Gv_yRSotk",
+    "cost": 0
+  },
+  {
+    "place_name": "七股鹽山",
+    "place_id": "ChIJTRbkzL_WbTQRTrfGfckHIrc",
+    "cost": 50
+  },
+  {
+    "place_name": "國立臺灣文學館",
+    "place_id": "ChIJcfdsmWJ2bjQRSb4_CGnFR0E",
+    "cost": 100
+  },
+  {
+    "place_name": "祀典武廟",
+    "place_id": "ChIJ_3sZgmF2bjQRJqNT18Vuoa0",
+    "cost": 0
+  },
+  {
+    "place_name": "臺南文化創意產業園區",
+    "place_id": "ChIJo6dL64x2bjQRl3sP23mHafk",
+    "cost": 200
+  },
+  {
+    "place_name": "國華街",
+    "place_id": "EiHlj7DngaPlj7DljZfluILkuK3opb_ljYDlnIvoj6_ooZciLiosChQKEgmhrt0EZHZuNBHppRLbOxj3BBIUChIJ46LFiW12bjQRTi0d1pRarMc",
+    "cost": 500
+  },
+  {
+    "place_name": "神農街",
+    "place_id": "EiHlj7DngaPlj7DljZfluILkuK3opb_ljYDnpZ7ovrLooZciLiosChQKEgmfhqGCZnZuNBFGlgHsq7WFxRIUChIJ46LFiW12bjQRTi0d1pRarMc",
+    "cost": 500
+  },
+  {
+    "place_name": "延平郡王祠",
+    "place_id": "ChIJOV93D7l3bjQRwEAmoZnYs2c",
+    "cost": 0
+  },
+  {
+    "place_name": "二鯤鯓砲臺(億載金城)",
+    "place_id": "ChIJk_qk9P91bjQRTolgNlHUSrc",
+    "cost": 50
+  },
+  {
+    "place_name": "南紡購物中心",
+    "place_id": "ChIJJQ7fpL52bjQRhhEkcEbTB-M",
+    "cost": 1000
+  },
+  {
+    "place_name": "新光三越台南新天地",
+    "place_id": "ChIJp5P59Ht2bjQR1hHZV6r73Dk",
+    "cost": 1000
+  },
+  {
+    "place_name": "藍晒圖文創園區",
+    "place_id": "ChIJtbdB0Xt2bjQR1IE4qcWD-lg",
+    "cost": 200
+  }
+]
