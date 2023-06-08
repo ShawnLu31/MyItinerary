@@ -27,77 +27,73 @@ def zoom_transport_on_map():
 """
 search algorithm API
 """
-attr = [{'place_name':"臺南市美術館2館", 
-         'place_id':"ChIJQW7Ewnx2bjQR2vkI8YSRFXM",
-         'cost': 200 },
-         {'place_name':"安平樹屋", 
-          'place_id':"ChIJlynOByF3bjQR_IzNSlgH-Ss",
-          'cost': 70},
-          {'place_name':"赤崁樓", 
-          'place_id':"ChIJbYl7d2F2bjQRnFdvyMBuZfI",
-          'cost': 50},
-         ]
-def search_onekey(stamp):
-    # get restaurant
+def pick_place_of_database(database):
+    while True:
+        index = random.randint(0, len(database) -1)
+        if database[index] != None:
+            break
+    return database[index]
 
-    att = attr[random.randint(0, 2)]['place_id']
+def search_onekey():
+    # 處理需求
+        # 人數
+        # 景點
+        # 餐廳
+    food_keyword = Fc.get_active_requirement('food')
+    min_price, max_price = Fc.get_active_requirement('price')
+        # 娛樂
+        # 距離 
+        # 預算
+    budget = Fc.get_budget()
 
-    place_1_id = Fc.search_place('restaurant', att, ['food', 'price'])
-    if place_1_id != None:
-        print("Find place_1")
-        place_1 = Fc.get_place_details(place_1_id)
+    # 小型 2 food, 2 attr, 1 night
+    # 中型 4 food, 4 attr, 1-2 night
+    attractions = list(Fc.get_from_database('attractions'))
+    hotels = list(Fc.get_from_database('hotels'))
+    hotel = None
 
-    # get attractions
+    for index in range(3):
+        while True:
+            
+            if int(budget) >= 2000:
+                while True:
+                    # get hotel
+                    hotel = pick_place_of_database(hotels)
+                    print(f'hotel {hotel[2]}, {type(hotel[2])}')
+                    if hotel[2] < int(budget):
+                        break
 
-    place_2_id = att
-    if place_2_id != None:
-        print("Find place_2")
-        place_2 = Fc.get_place_details(place_2_id)
+            # get attr from base
+            attr1 = pick_place_of_database(attractions)
+            attractions.remove(attr1)
+            attr2 = pick_place_of_database(attractions)
+            attractions.append(attr1)
 
-    if place_1_id != None and place_2_id != None:
-        route = Fc.search_directions(place_1_id, place_2_id)
-
-    if place_1_id != None and place_2_id != None:
-        result = {'restaurant':place_1, 'attraction':place_2, 'route':route}
-        fname = 'result' + stamp
+            # get  food
+            food1_id = Fc.search_place('restaurant', attr1[0], food_keyword, min_price, max_price)
+            food2_id = Fc.search_place('restaurant', attr2[0], food_keyword, min_price, max_price)
+            if food1_id != None and food2_id != None:
+                print("Find food")
+                break
+        
+        result = {
+            'hotel': Fc.get_place_details(hotel[0]) if hotel is not None else None,
+            'attr1': Fc.get_place_details(attr1[0]),
+            'attr2': Fc.get_place_details(attr2[0]),
+            'food1': Fc.get_place_details(food1_id),
+            'food2': Fc.get_place_details(food2_id),
+        }
+        fname = f'result{index}'
         Fc.dump_json(fname , result)
-    else:
-        print("stamp \"{0}\" Not Found!".format(stamp))
-    
+            
     return 
 
-def search_onekey_storage():
-    pass
-
 def search_reqiurement(stamp):
-    # get restaurant
-
-    place_1_id = Fc.search_place('restaurant', (22.997409807642487, 120.22060180281467), ['food', 'price'])
-    if place_1_id != None:
-        print("Find place_1")
-        place_1 = Fc.get_place_details(place_1_id)
-
-    # get attractions
-
-    place_2_id = Fc.search_place('tourist_attraction', (22.997409807642487, 120.22060180281467), ['entertainment'])
-    if place_2_id != None:
-        print("Find place_2")
-        place_2 = Fc.get_place_details(place_2_id)
-
-    if place_1_id != None and place_2_id != None:
-        route = Fc.search_directions(place_1_id, place_2_id)
-
-    if place_1_id != None and place_2_id != None:
-        result = {'restaurant':place_1, 'attraction':place_2, 'route':route}
-        fname = 'result' + stamp
-        Fc.dump_json(fname , result)
-    else:
-        print("stamp \"{0}\" Not Found!".format(stamp))
+    pass
 
 def search_reqiurement_strict():
     pass
 
-def search_reqiurement_storage():
-    pass
+
 
 

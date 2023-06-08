@@ -5,6 +5,7 @@ import Itn_search as Srh
 import Itn_requirements as Rq 
 
 app = Flask(__name__)
+fname = None
 
 @app.route('/',methods=['GET', 'POST'])
 def home():
@@ -17,9 +18,9 @@ def home():
 @app.route('/search', methods=['POST'])
 def search():
     print("search")
-    # Srh.search_reqiurement('2')
-    Srh.search_onekey('onekey')
-    # pl.get_place_loc()
+    Srh.search_onekey()
+
+    Rq.clear_requirements() 
 
     return redirect('/')
 
@@ -31,51 +32,46 @@ def modifyRequirements():
         reqs = request.json['requirements']
         print("reqs: ",reqs)
         for rq in reqs:
-            Rq.modify_reqiurements(rq, True)
-
+            Rq.modify_reqiurements(rq, '1')
+        Rq.budget = request.json['budget']
     return redirect('/')
 
-@app.route('/show', methods=['GET'])
-def show():
-    print("show")
-    return redirect(url_for('showPlaceDetail'))
-
-@app.route('/show/place_detail', methods=['GET'])
+@app.route('/show/place_detail', methods=['POST'])
 def showPlaceDetail():
-    fname = './test/' + 'resultonekey' +'.json'
+    fname = request.json['fname']
     with open(fname, 'r', encoding='utf-8') as f:
         data = json.load(f)
-    # deatils
-    p1 = {
-        'name': data['restaurant']['result']['name'],
-        'addr': data['restaurant']['result']['formatted_address'],
-        'rating': data['restaurant']['result']['rating']
-    }
-    p2 = {
-        'name': data['attraction']['result']['name'],
-        'addr': data['attraction']['result']['formatted_address'],
-        'rating': data['attraction']['result']['rating']
-    }
-    route = {
-        'route': data['route'][0]['summary'],
-
+    detail_content = {
+        'attr1_name': data["attr1"]["result"]["name"],
+        'food1_name': data["food1"]["result"]["name"],
+        'hotel_name': data["hotel"]["result"]["name"] if data['hotel'] is not None else None,
+        'attr2_name': data["attr2"]["result"]["name"],
+        'food2_name': data["food2"]["result"]["name"],
     }
     
-    Rq.clear_requirements() #########################
+    html_context = f""
+    for key, data in detail_content.items():
+        if data is not None:
+            html_context += f"<div class=\"location-block\"> <h1>{ data }</h1></div>"
 
-    # show routes on map
+    return html_context
 
-    return render_template('web.html', placeInfo1=p1, placeInfo2=p2, routeInfo1=route, initMap=False)
 
-@app.route('/show/map_detail', methods=['GET'])
+@app.route('/show/map_detail/', methods=['POST'])
 def showMapInfo():
-    fname = './test/' + 'resultonekey' +'.json'
+    fname = request.json['fname']
+    print('f', fname)
     with open(fname, 'r', encoding='utf-8') as f:
         data = json.load(f)
     mapInfo = {
-        'p1': data['restaurant']['result']['place_id'],
-        'p2': data['attraction']['result']['place_id']
+        'ori': data['attr1']['result']['place_id'],
+        'wayps': [data['food1']['result']['place_id'],
+                  data['attr2']['result']['place_id']],
+        'des': data['food2']['result']['place_id']
     }
+    if  data['hotel'] is not None:
+        mapInfo['wayps'].insert(1, data['hotel']['result']['place_id'])
+        
     print(mapInfo)
     return mapInfo
 

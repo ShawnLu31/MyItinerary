@@ -1,19 +1,21 @@
 <!DOCTYPE html>
     <head>
         <meta name="viewpoint" content="width=device-width, initial-scale=1.0" />
-        <meta charset="utf-8" />
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
         <title>MyItinerary</title>
         <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet" type="text/css">
         <script src="https://code.jquery.com/jquery-3.4.1.js"
             integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="crossorigin="anonymous"></script>
+            
     </head>
     <body>
+        <script language="JavaScript" type="text/javascript" src="{{  url_for('static', filename='script.js') }}"></script>
         <div id="Header">My Itinerary</div>
         <div id="Body">
             <!--search sidebar-->
             <div id="Sidebar">
                 <div style="margin-top: 10px;">
-                    <button class="button-onekey" onclick="search();">一鍵行程</button>
+                    <button class="button-onekey" onclick="search()">一鍵行程</button>
                 </div>
                 <div style="height: 50px; text-align: center; 
                             padding: 15px 32px;                            
@@ -22,7 +24,7 @@
                             font-size: 24px;">
                             篩選條件
                 </div>
-                <div style="margin-top: 10px; display: block;" >
+                <div style="margin-top: 10px; display: flex; flex-direction: column;" >
                     <!--行程風格-->
                     <span>
                         <button id="itinerary_style_btn" class="button" onclick="menuBtnClicked(this);">行程風格</button>
@@ -54,11 +56,11 @@
                             <div style="text-align: center; flex: auto; width: 100%;">
                                 <h2>喜愛</h2>
                                 <ul class="list">
-                                    <li><input type="checkbox" name="requirement" value="one"><label for="1">景點1</label></li>
-                                    <li><input type="checkbox" name="requirement" value="one"><label for="2">景點2</label></li>
-                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點3</label></li>
-                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點4</label></li>
-                                    <li><input type="checkbox" name="requirement" value="one"><label for="3">景點5</label></li>
+                                    <li><input type="checkbox" name="requirement" value="臺南市美術館2館"><label for="1">臺南市美術館2館</label></li>
+                                    <li><input type="checkbox" name="requirement" value="安平古堡"><label for="2">安平古堡</label></li>
+                                    <li><input type="checkbox" name="requirement" value="赤崁樓"><label for="3">赤崁樓</label></li>
+                                    <li><input type="checkbox" name="requirement" value="藍晒圖文創園區"><label for="4">藍晒圖文創園區</label></li>
+                                    <li><input type="checkbox" name="requirement" value="南紡購物中心"><label for="5">南紡購物中心</label></li>
                                 </ul>
                             </div>
                         </div>
@@ -73,10 +75,10 @@
                                     <li><input type="checkbox" name="requirement" value="taiwanese"><label for="1">台式</label></li>
                                     <li><input type="checkbox" name="requirement" value="japanese"><label for="2">日式</label></li>
                                     <li><input type="checkbox" name="requirement" value="italian"><label for="3">意式</label></li>
-                                    <li><input type="checkbox" name="requirement" value="french"><label for="3">法式</label></li>
-                                    <li><input type="checkbox" name="requirement" value="fast food"><label for="3">速食</label></li>
-                                    <li><input type="checkbox" name="requirement" value="exotic"><label for="3">異國</label></li>
-                                    <li><input type="checkbox" name="requirement" value="vegetarian"><label for="3">素食</label></li>
+                                    <li><input type="checkbox" name="requirement" value="french"><label for="4">法式</label></li>
+                                    <li><input type="checkbox" name="requirement" value="fast food"><label for="5">速食</label></li>
+                                    <li><input type="checkbox" name="requirement" value="exotic"><label for="6">異國</label></li>
+                                    <li><input type="checkbox" name="requirement" value="vegetarian"><label for="7">素食</label></li>
                                 </ul>
                             </div>
                             <div style="text-align: center; flex: none; width: 50%;">
@@ -129,62 +131,14 @@
                             </div>
                         </div>
                     </span>
-                    <!--其他-->
-                    <button class="button" onclick="menuBtnClicked(this);">其他</button>
-                    <script>
-                        function search(){
-                            var checkboxes  = document.querySelectorAll('input[name="requirement"]:checked')
-                            var arr = []
-                            
-                            for (var i = 0; i < checkboxes.length; i++) {
-                                arr.push(checkboxes[i].value);
-                                console.log(checkboxes[i].value);
-                            }
-
-                            $.ajax({
-                                url: '/modify',
-                                method: 'POST',
-                                contentType: 'application/json',
-                                data: JSON.stringify({"requirements": arr}),
-                                success: function(res){console.log(res)},
-                                error:function(err){console.log(err)},
-                            });
-                            
-                            $.ajax({
-                                url: '/search',
-                                method: 'POST',
-                                success: function(res){console.log(res)},
-                                error:function(err){console.log(err)},
-                            });
-                        }
-
-                        function menuBtnClicked(elem){
-                            let menu
-                            if (elem.id == "itinerary_style_btn") {
-                                menu = document.querySelector("#menu1");
-                            }
-                            else if (elem.id == "attractions_btn") {
-                                menu = document.querySelector("#menu2");
-                            }  
-                            else if (elem.id == "food_btn") {
-                                menu = document.querySelector("#menu3");
-                            }
-                            else if (elem.id == "entertainment_btn") {
-                                menu = document.querySelector("#menu4");
-                            }
-                            else if (elem.id == "distance_btn") {
-                                menu = document.querySelector("#menu5");
-                            }
-
-                            if (menu.style.visibility == "visible") {  
-                                menu.style.visibility="hidden";
-                            }
-                            else {
-                                menu.style.visibility="visible";
-                            }
-                        }
-                    
-                    </script>
+                    <!--金額-->
+                    <span style="display: flex; justify-content: center; margin: 20px">
+                        <div style="margin: 0px 10px 0px 10px; ">預算:</div>
+                        <label id="slider-value" style="width:20%; border: 1px solid black">1000</label>
+                    </span>
+                    <span>
+                        <input type="range" id="money-slider" min="1000" max="10000" step="500" value="1000" oninput="show_money_slider_value(this)"/>
+                    </span>    
                 </div>
             </div>
             <!--itinerary choose sidebar-->
@@ -198,47 +152,12 @@
                 </div>
                 <!--itinerary choice-->
                 <div  style="margin-top: 10px;"> 
-                    <form action="/show" method="get" name="form_itinerary" id="form_itinerary">
-                        <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="itinerary1()";>itinerary 1</div>
-                        <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 2</div>
-                        <div class="itinerary-choice-block" style="line-height: 150px;" onclick="itinerary1()";>itinerary 3</div>
-                    </form>
+                    <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="show_itinerary(this)" value="0">推薦行程 1</div>
+                    <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="show_itinerary(this)" value="1">推薦行程 2</div>
+                    <div class="itinerary-choice-block" style="line-height: 150px;" type="button" onclick="show_itinerary(this)" value="2">推薦行程 3</div>
                 </div>
             </div>
-            <script>
-                function itinerary1(){
-                    let detail = document.querySelector('[data-target="detail"]')
-                    document.getElementById("form_itinerary").submit(); // form submission
-                }
-                function route(){
-                    var map = new google.maps.Map(document.getElementById('Map'), {
-                        zoom: 15,
-                    });
-                    var directionsService = new google.maps.DirectionsService();
-                    var directionsRenderer = new google.maps.DirectionsRenderer();
-
-                    $.ajax({
-                        url: '/show/map_detail',
-                        method: 'GET',
-                        data: {},
-                        success: function(data){
-                            let request = {
-                                origin: {placeId: data.p1},
-                                destination: {placeId: data.p2},
-                                travelMode: 'WALKING'
-                            };
-
-                            directionsRenderer.setMap(map);
-                            directionsService.route(request, function(response, status) {
-                                if (status == 'OK') {
-                                    directionsRenderer.setDirections(response);
-                                }
-                            });
-                        },
-                        error:function(err){console.log(err)},
-                    });
-                }
-            </script>
+            
 
             <!--itinerary detail sidebar-->
             <div id="Sidebar">
@@ -252,29 +171,13 @@
                                 font-size: 24px;">
                                 行程內容
                     </div>
-                    <div style="flex: auto;">
+                    <!-- <div style="flex: auto;">
                         <button id="store_btn" class="button-store">儲存</button>
-                    </div>
+                    </div> -->
                 </span>
                 <!--itinerary detail -->
-                <div style="margin-top: 10px; visibility: visible;" data-target="detail"> 
-                    {% if placeInfo1 != undefined %}
-                    <div class="location-block">
-                        <h1>{{placeInfo1.name}}</h1>
-                        <div>{{placeInfo1.addr}}</div>
-                        <div>rating: {{placeInfo1.rating}}</div>
-                    </div>
-                    {% endif %}
-                    {% if routeInfo1 != undefined %}
-                    <div class="transport-block">{{routeInfo1.route}}</div>
-                    {% endif %}
-                    {% if placeInfo2 != undefined %}
-                    <div class="location-block">
-                        <h1>{{placeInfo2.name}}</h1>
-                        <div>{{placeInfo2.addr}}</div>
-                        <div>rating: {{placeInfo2.rating}}</div>
-                    </div>
-                    {% endif %}
+                <div style="margin-top: 10px; visibility: visible;" data-target="detail" id="detail"> 
+
                 </div>
             </div>
             <!-- google map space-->
@@ -291,6 +194,43 @@
                         map: map
                     });
                 }
+                function route(fname){
+                    var map = new google.maps.Map(document.getElementById('Map'), {
+                        zoom: 15,
+                    });
+                    var directionsService = new google.maps.DirectionsService();
+                    var directionsRenderer = new google.maps.DirectionsRenderer();
+
+
+
+                    $.ajax({
+                        url: '/show/map_detail',
+                        method: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({"fname": fname}),
+                        success: function(data){
+                            let request = {
+                                origin: {placeId: data.ori},
+                                waypoints: [{stopover: true,
+                                            location: {'placeId': data.wayps[0]}},
+                                            {stopover: true,
+                                            location: {'placeId': data.wayps[1]}},
+                                            {stopover: true,
+                                            location: {'placeId': data.wayps[2]}}],
+                                destination: {placeId: data.des},
+                                travelMode: 'WALKING'
+                            };
+
+                            directionsRenderer.setMap(map);
+                            directionsService.route(request, function(response, status) {
+                                if (status == 'OK') {
+                                    directionsRenderer.setDirections(response);
+                                }
+                            });
+                        },
+                        error:function(err){console.log(err)},
+                    });
+                }
             </script>
             {% if initMap == undefined %}
             <script
@@ -304,5 +244,6 @@
             </script>
             {% endif %}
         </div>
+        
     </body>
 </html>

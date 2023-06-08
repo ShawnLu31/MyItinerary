@@ -4,6 +4,7 @@ import random
 import numpy as np
 import Itn_keyword as kw
 import Itn_requirements as Rq 
+import Itn_database as Db
 
 gmaps = googlemaps.Client(key=kw.API_KEY)
 
@@ -38,14 +39,11 @@ This function search the places according to the command, and return a place id.
     'attraction', search location is about requirement attraction.
     else , is default location
 """
-def search_place(place_type, loc, requirements):
-
-    pl_type, keyword_list, min_price, max_price = analye_requirements(requirements)
-    loc
+def search_place(pl_type, loc, keyword_list, min_price, max_price):
     rad_l = [1000, 10000, 50000]
     for rad in rad_l:
         result = search_nearby(
-            place_type if pl_type is None else pl_type, 
+            pl_type, 
             get_location(loc), 
             rad, 
             keyword_list, 
@@ -55,7 +53,7 @@ def search_place(place_type, loc, requirements):
 
         if result['status'] == 'OK':
             place_id = pick_place(get_location(loc), result['results'], 3)
-            dump_json(place_type if pl_type == None else pl_type, result)
+            dump_json(pl_type, result)
             return place_id
 
     return None
@@ -73,22 +71,22 @@ def search_nearby(place_type, location, rad, keyword_list, min_price, max_price)
 
     return result
 
-def analye_requirements(requirements):
-    keyword_list = ""
-    place_type = None
-    min_price = None
-    max_price = None
-    for rq in requirements:
-        if rq == 'food':
-            keyword_list = get_keyword_list(['food'])
-            place_type = Rq.place_type[0]
-
-        if rq == 'price':
-            price = Rq.get_reqiurements(['price'])
-
-            if price == []:
-                continue
-            
+def get_active_requirement(sub_reqs):
+    if sub_reqs == 'num_member':    
+        return
+    if sub_reqs == 'select_set':  
+        return  
+    if sub_reqs == 'attractions':   
+        return 
+    if sub_reqs == 'food':    
+        keyword_list = get_keyword_list(['food'])
+        return keyword_list
+    
+    if sub_reqs == 'price':   
+        price = Rq.get_reqiurements(['price'])
+        if len(price) == 0:
+            min_price, max_price = 0, 3
+        else:
             if price[0] == 'low':
                 min_price = 0
             elif price[0] == 'normal':
@@ -110,21 +108,21 @@ def analye_requirements(requirements):
                 max_price = 3
             else:
                 max_price = 3
+        return min_price, max_price
+    
+    if sub_reqs == 'entertainment':  
+        return  
+    if sub_reqs == 'geo_distance':    
+        return
+    if sub_reqs == 'transport_distance':    
+        return
 
-        if rq == 'entertainment':
-            entertainment = Rq.get_reqiurements(['entertainment'])
-            for ent in entertainment:
-                if ent == 'shopping':
-                    place_type = Rq.place_type[3]
-                if ent == 'movie':
-                    place_type = Rq.place_type[1]
-                if ent == 'romance':
-                    pass
+def get_budget():
+    return Rq.budget
 
-    print("place type: ", place_type)
-    print("keyword_list: ", keyword_list)
-    print("price: ", min_price, max_price)
-    return place_type, keyword_list, min_price, max_price
+def get_from_database(type):
+    table = Db.getData(type)
+    return table
 """
 This function return a place id.
 Choose only one place from candidates in 3 ways:

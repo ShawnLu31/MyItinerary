@@ -1,8 +1,3 @@
-"""
-'num_member', 'select_set', 'attractions', 'food', 'price', 'entertainment', 'geo_distance', 'transport_distance',  'transport_distance'
-"""
-
-# intinerary style
 reqiurements_list = {
     'num_member' : {
         'one': False, 
@@ -16,12 +11,13 @@ reqiurements_list = {
         'food': False, 
         'entertainment': False
         },
-    # attractions 
     'attractions' : {
-        '景點一': False, 
-        '景點二': False
+        '臺南市美術館2館': False, 
+        '安平古堡': False,
+        '赤崁樓': False,
+        '藍晒圖文創園區': False,
+        '南紡購物中心': False
         },
-    # food 
     'food' : {
         'taiwanese': False, 
         'japanese': False, 
@@ -31,14 +27,12 @@ reqiurements_list = {
         'exotic': False, 
         'vegetarian': False
         },
-    # price
     'price' : {
         'low': False, 
         'normal': False, 
         'medium': False, 
         'high': False
         },
-    # entertainment
     'entertainment' : {
         'movie': False, 
         'shopping': False,
@@ -46,7 +40,6 @@ reqiurements_list = {
         'sports': False, 
         'party': False
         },
-    # distance
     'geo_distance' : {
         'close': False, 
         'middle': False, 
@@ -65,6 +58,8 @@ place_type = [
         'tourist_attraction',
         'shopping_mall'
 ]
+
+budget = 1000
 
 def modify_reqiurements(rq, value):
     for type in reqiurements_list.keys():
