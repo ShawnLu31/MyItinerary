@@ -52,7 +52,7 @@ def search_place(pl_type, loc, keyword_list, min_price, max_price):
         )
 
         if result['status'] == 'OK':
-            place_id = pick_place(get_location(loc), result['results'], 3)
+            place_id = pick_place(get_location(loc), result['results'], random.randint(1, 3))
             dump_json(pl_type, result)
             return place_id
 
@@ -76,8 +76,11 @@ def get_active_requirement(sub_reqs):
         return
     if sub_reqs == 'select_set':  
         return  
-    if sub_reqs == 'attractions':   
-        return 
+    if sub_reqs == 'attractions': 
+        print("key:")
+        keyword_list =Rq.get_reqiurements(['attractions'])
+        print(keyword_list)
+        return keyword_list
     if sub_reqs == 'food':    
         keyword_list = get_keyword_list(['food'])
         return keyword_list
@@ -140,14 +143,16 @@ def pick_place(origin, candidates, way):
 
     elif way == 2:
         rating_list = [place['rating'] for place in candidates]
-        index = rating_list.index(max(rating_list))
+        rating_list = np.sort(rating_list)
+        index = random.randint(len(candidates) // 2, len(candidates) - 1)
         return candidates[index]['place_id']
 
     elif way == 3:
         place_loc = np.array([(place['geometry']['location']['lat'], place['geometry']['location']['lng']) for place in candidates])
         dist = abs(place_loc - np.array(origin))
         sum_dist = np.sum(dist, axis=1)
-        index = np.argmin(sum_dist)
+        sum_dist  = np.sort(sum_dist)
+        index = random.randint(0, len(candidates) // 2)
         return candidates[index]['place_id']
     else:
         print('ERROR, No such pick way.')

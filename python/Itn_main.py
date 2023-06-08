@@ -20,7 +20,7 @@ def search():
     print("search")
     Srh.search_onekey()
 
-    Rq.clear_requirements() 
+    # Rq.clear_requirements() 
 
     return redirect('/')
 
@@ -32,7 +32,7 @@ def modifyRequirements():
         reqs = request.json['requirements']
         print("reqs: ",reqs)
         for rq in reqs:
-            Rq.modify_reqiurements(rq, '1')
+            Rq.modify_reqiurements(rq, True)
         Rq.budget = request.json['budget']
     return redirect('/')
 
@@ -52,7 +52,7 @@ def showPlaceDetail():
     html_context = f""
     for key, data in detail_content.items():
         if data is not None:
-            html_context += f"<div class=\"location-block\"> <h1>{ data }</h1></div>"
+            html_context += f"<div class=\"location-block\"> <h3>{ data }</h3></div>"
 
     return html_context
 

@@ -34,10 +34,38 @@ def pick_place_of_database(database):
             break
     return database[index]
 
+def get_place_info(database, name):
+    for data in database:
+        if data[1] == name:
+            return data
+    print('ERROR, NO SUCH PLACE')
+    return None
+
+def pick_place_form_chosed(database, chosed_list):
+    p1, p2 = None, None
+    if len(chosed_list) == 1:
+        p1 = get_place_info(database, chosed_list[0])
+        database.remove(p1)
+        p2 = pick_place_of_database(database)
+        database.append(p1)
+    elif len(chosed_list) == 2:
+        p1 = get_place_info(database, chosed_list[0])
+        p2 = get_place_info(database, chosed_list[1])
+    else:
+        indexs = random.sample(range(0, len(chosed_list)), 2)
+        p1 = get_place_info(database, chosed_list[indexs[0]])
+        p2 = get_place_info(database, chosed_list[indexs[1]])
+    return p1, p2
+
 def search_onekey():
     # 處理需求
         # 人數
         # 景點
+    attr_chosed_list = Fc.get_active_requirement('attractions')
+    if len(attr_chosed_list) > 0:
+        attr_chosed = True
+    else:
+        attr_chosed = False
         # 餐廳
     food_keyword = Fc.get_active_requirement('food')
     min_price, max_price = Fc.get_active_requirement('price')
@@ -54,7 +82,6 @@ def search_onekey():
 
     for index in range(3):
         while True:
-            
             if int(budget) >= 2000:
                 while True:
                     # get hotel
@@ -64,17 +91,21 @@ def search_onekey():
                         break
 
             # get attr from base
-            attr1 = pick_place_of_database(attractions)
-            attractions.remove(attr1)
-            attr2 = pick_place_of_database(attractions)
-            attractions.append(attr1)
+            if attr_chosed == True:
+                attr1, attr2 = pick_place_form_chosed(attractions, attr_chosed_list)
+            else:
+                attr1 = pick_place_of_database(attractions)
+                attractions.remove(attr1)
+                attr2 = pick_place_of_database(attractions)
+                attractions.append(attr1)
 
             # get  food
             food1_id = Fc.search_place('restaurant', attr1[0], food_keyword, min_price, max_price)
             food2_id = Fc.search_place('restaurant', attr2[0], food_keyword, min_price, max_price)
             if food1_id != None and food2_id != None:
-                print("Find food")
-                break
+                if food1_id != food2_id:
+                    print("Find food")
+                    break
         
         result = {
             'hotel': Fc.get_place_details(hotel[0]) if hotel is not None else None,
@@ -87,13 +118,6 @@ def search_onekey():
         Fc.dump_json(fname , result)
             
     return 
-
-def search_reqiurement(stamp):
-    pass
-
-def search_reqiurement_strict():
-    pass
-
 
 
 

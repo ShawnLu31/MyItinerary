@@ -209,24 +209,44 @@
                         contentType: 'application/json',
                         data: JSON.stringify({"fname": fname}),
                         success: function(data){
-                            let request = {
-                                origin: {placeId: data.ori},
-                                waypoints: [{stopover: true,
-                                            location: {'placeId': data.wayps[0]}},
-                                            {stopover: true,
-                                            location: {'placeId': data.wayps[1]}},
-                                            {stopover: true,
-                                            location: {'placeId': data.wayps[2]}}],
-                                destination: {placeId: data.des},
-                                travelMode: 'WALKING'
-                            };
-
-                            directionsRenderer.setMap(map);
-                            directionsService.route(request, function(response, status) {
+                            console.log("len", Object.keys(data.wayps).length)
+                            wayplen = Object.keys(data.wayps).length
+                            if (wayplen == 3) {
+                                let request = {
+                                    origin: {placeId: data.ori},
+                                    waypoints: [{stopover: true,
+                                                location: {'placeId': data.wayps[0]}},
+                                                {stopover: true,
+                                                location: {'placeId': data.wayps[1]}},
+                                                {stopover: true,
+                                                location: {'placeId': data.wayps[2]}}],
+                                    destination: {placeId: data.des},
+                                    travelMode: 'WALKING'
+                                };
+                                directionsRenderer.setMap(map);
+                                directionsService.route(request, function(response, status) {
                                 if (status == 'OK') {
                                     directionsRenderer.setDirections(response);
                                 }
-                            });
+                                 });
+                            } 
+                            if (wayplen == 2) {
+                                let request = {
+                                    origin: {placeId: data.ori},
+                                    waypoints: [{stopover: true,
+                                                location: {'placeId': data.wayps[0]}},
+                                                {stopover: true,
+                                                location: {'placeId': data.wayps[1]}},],
+                                    destination: {placeId: data.des},
+                                    travelMode: 'WALKING'
+                                };
+                                directionsRenderer.setMap(map);
+                                directionsService.route(request, function(response, status) {
+                                if (status == 'OK') {
+                                    directionsRenderer.setDirections(response);
+                                }
+                                });
+                            }
                         },
                         error:function(err){console.log(err)},
                     });

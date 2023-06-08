@@ -63,7 +63,7 @@ budget = 1000
 
 def modify_reqiurements(rq, value):
     for type in reqiurements_list.keys():
-        if rq in  reqiurements_list[type].keys():
+        if rq in reqiurements_list[type].keys():
             reqiurements_list[type][rq] = value
 
 """
@@ -84,7 +84,6 @@ def get_reqiurements(types):
             for key, value in reqiurements_list[type].items():
                 if value == True:
                     actice_reqiurements.append(key)
-
     return actice_reqiurements
 
 def clear_requirements():

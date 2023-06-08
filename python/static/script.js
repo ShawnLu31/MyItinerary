@@ -16,16 +16,18 @@ function search(){
         method: 'POST',
         contentType: 'application/json',
         data: JSON.stringify({"requirements": arr, "budget": budget}),
-        success: function(res){console.log(res)},
+        success: function(res){
+            $.ajax({
+                url: '/search',
+                method: 'POST',
+                success: function(res){console.log(res)},
+                error:function(err){console.log(err)},
+            });
+        },
         error:function(err){console.log(err)},
     });
     
-    $.ajax({
-        url: '/search',
-        method: 'POST',
-        success: function(res){console.log(res)},
-        error:function(err){console.log(err)},
-    });
+    
 
 }
 
